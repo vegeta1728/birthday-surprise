@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Riyu 🎂</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      color: #333;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #ff416c;
+      z-index: 2;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      max-width: 600px;
+      z-index: 2;
+    }
+    /* Bigger circular photo */
+    .photo {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      border: 6px solid #ff416c;
+      margin: 30px 0;
+      object-fit: cover;
+      animation: glow 2s infinite alternate;
+      z-index: 2;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #ff416c; }
+      to { box-shadow: 0 0 25px #ff416c; }
+    }
+    .next-btn {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      background: #ff416c;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+      z-index: 2;
+    }
+    .next-btn:hover {
+      background: #ff5f7a;
+    }
+
+    /* ✨ Sparkle Confetti */
+    .sparkle {
+      position: absolute;
+      top: -20px;
+      font-size: 20px;
+      animation: fall linear infinite;
+      opacity: 0.8;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday, Riyu 🤗 🎉</h1>
+  <p>You are not just my love, you are my best friend, my joy, and my forever inspiration 💖</p>
+
+  <!-- ✅ Replace "riyu.jpg" with your real photo file -->
+  <img src="riyu.jpg" alt="Riyu" class="photo">
+
+  <!-- ✅ Button now correctly goes to Page 3 -->
+  <button class="next-btn" onclick="location.href='Love letter.html'">Next Surprise 💌</button>
+
+  <script>
+    // ✨ Sparkle Confetti Generator
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.textContent = '✨';
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.fontSize = (15 + Math.random() * 20) + 'px';
+      sparkle.style.animationDuration = (3 + Math.random() * 3) + 's';
+      document.body.appendChild(sparkle);
+
+      setTimeout(() => {
+        sparkle.remove();
+      }, 6000);
+    }
+
+    setInterval(createSparkle, 300);
+  </script>
+</body>
+</html>

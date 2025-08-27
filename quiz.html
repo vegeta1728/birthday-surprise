@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bachu's Playful Love Quiz ❤️</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .quiz-container {
+      background: white;
+      padding: 20px 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      max-width: 550px;
+      width: 100%;
+    }
+    h2 {
+      color: #d6336c;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .btn:hover { background: #ff4757; }
+
+    .feedback {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+      display: none;
+      white-space: pre-line;
+    }
+
+    .summary {
+      text-align: left;
+      font-size: 15px;
+      margin-top: 20px;
+    }
+    .correct { color: green; font-weight: bold; }
+    .wrong { color: red; font-weight: bold; }
+
+    .play-again {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #6a1b9a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .play-again:hover { background: #4a148c; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h3 id="question-number">Question 1</h3>
+    <h2 id="question">Loading...</h2>
+    <button class="btn"></button>
+    <button class="btn"></button>
+    <button class="btn"></button>
+    <button class="btn"></button>
+    <p id="feedback" class="feedback"></p>
+  </div>
+
+  <script>
+    // 👉 Quiz questions
+    const questions = [
+      {
+        q: "Where did our first talk happen?",
+        answers: [
+          { text: "The Basic Electronics Engineering (BEE) Lab", correct: true },
+          { text: "At canteen", correct: false },
+          { text: "At garden", correct: false },
+          { text: "In library", correct: false }
+        ],
+        detail: "📅 11th September — You told me there was already a girls' group existing 😄😁 That’s how our sweet story began!"
+      },
+      {
+        q: "When will I give you the first cheek kiss 💋?",
+        answers: [
+          { text: "In movie Pushpa 2", correct: true },
+          { text: "At college farewell", correct: false },
+          { text: "At birthday party", correct: false },
+          { text: "During exam preparation", correct: false }
+        ],
+        detail: "📅 5th December — I suddenly kissed you 😘 That little surprise is forever special!"
+      },
+      {
+        q: "Where did we hug the first time?",
+        answers: [
+          { text: "The pathway between Civil & Electrical department", correct: true },
+          { text: "Near the college gate", correct: false },
+          { text: "In the garden", correct: false },
+          { text: "At bus stop", correct: false }
+        ],
+        detail: "That pathway wasn’t just concrete, it became our memory lane 💖 Our first hug there still gives me butterflies every time I think about it."
+      }
+    ];
+
+    // Sweet rewards & playful punishments
+    const sweetRewards = ["Soft Kiss 💋", "Hug 🤗", "Hand Hold ✋", "Forehead Kiss 😘"];
+    const playfulPunishments = ["Kick 🦵", "Slap 🖐️", "Tickle Attack 😂", "Pinch 👌"];
+
+    let currentQuestion = 0;
+    let results = [];
+    let nextTimeout;
+
+    function loadQuestion() {
+      if (currentQuestion < questions.length) {
+        document.getElementById("question-number").innerText =
+          `Question ${currentQuestion + 1} of ${questions.length}`;
+        document.getElementById("question").innerText =
+          questions[currentQuestion].q;
+
+        const buttons = document.querySelectorAll(".btn");
+        questions[currentQuestion].answers.forEach((ans, i) => {
+          buttons[i].innerText = ans.text;
+          buttons[i].style.display = "block";
+          buttons[i].setAttribute("onclick", `checkAnswer(${ans.correct})`);
+        });
+        document.getElementById("feedback").style.display = "none";
+      } else {
+        showSummary();
+      }
+    }
+
+    function checkAnswer(isCorrect) {
+      const feedback = document.getElementById("feedback");
+      feedback.style.display = "block";
+
+      if (isCorrect) {
+        // 70% punishments, 30% rewards
+        let randomChoice;
+        if (Math.random() < 0.7) {
+          randomChoice = playfulPunishments[Math.floor(Math.random() * playfulPunishments.length)];
+        } else {
+          randomChoice = sweetRewards[Math.floor(Math.random() * sweetRewards.length)];
+        }
+
+        feedback.innerText = "✅ Correct! " + questions[currentQuestion].detail +
+                             `\n🎲 Surprise: ${randomChoice}`;
+        feedback.style.color = "green";
+
+        results.push({
+          q: questions[currentQuestion].q,
+          result: "Correct",
+          detail: questions[currentQuestion].detail,
+          choice: randomChoice
+        });
+
+      } else {
+        feedback.innerText = "❌ Oops! " + questions[currentQuestion].detail;
+        feedback.style.color = "red";
+
+        results.push({
+          q: questions[currentQuestion].q,
+          result: "Wrong",
+          detail: questions[currentQuestion].detail,
+          choice: "—"
+        });
+      }
+
+      // Move to next after 5 sec
+      nextTimeout = setTimeout(() => {
+        currentQuestion++;
+        loadQuestion();
+      }, 5000);
+    }
+
+    function showSummary() {
+      let summaryHtml = `<h2>🎉 Quiz Completed! 🎉</h2>
+                         <h3>Here’s your playful journey ❤️</h3>
+                         <div class="summary">`;
+
+      results.forEach((item, index) => {
+        summaryHtml += `
+          <p>
+            <b>Q${index + 1}:</b> ${item.q}<br>
+            <span class="${item.result === "Correct" ? "correct" : "wrong"}">
+              ${item.result}
+            </span> → ${item.detail} <br>
+            ${item.choice !== "—" ? "👉 Surprise: <b>" + item.choice + "</b>" : ""}
+          </p>
+        `;
+      });
+
+      summaryHtml += `</div>
+        <p style="text-align:center; font-size:18px; margin-top:20px;">💖 Whatever the surprise, you’re my forever 💖</p>
+        <button class="play-again" onclick="restartQuiz()">🔄 Play Again</button>`;
+
+      document.querySelector(".quiz-container").innerHTML = summaryHtml;
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      results = [];
+      document.querySelector(".quiz-container").innerHTML = `
+        <h3 id="question-number">Question 1</h3>
+        <h2 id="question">Loading...</h2>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <p id="feedback" class="feedback"></p>`;
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
